@@ -65,7 +65,7 @@ export async function GET(request: Request) {
     // Redirect back to the dashboard/homepage after successful login
     return NextResponse.redirect(new URL('/', request.url));
 
-  } catch (err: any) {
-    return NextResponse.json({ error: 'Failed to exchange token', details: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: 'Failed to exchange token', details: err instanceof Error ? err.message : String(err) }, { status: 500 });
   }
 }
