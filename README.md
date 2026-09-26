@@ -27,7 +27,7 @@ Create a `.env.local` file in the root directory with the following credentials 
 ```env
 ZOHO_CLIENT_ID=your_client_id_here
 ZOHO_CLIENT_SECRET=your_client_secret_here
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_BASE_URL=http://localhost:3000
 ZOHO_REDIRECT_URI=http://localhost:3000/api/auth/callback
 ```
 
