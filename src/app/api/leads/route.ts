@@ -68,7 +68,7 @@ export async function PUT(request: Request) {
     const updatedLead = await getZohoLeadById(id);
     const formattedLead = {
       id: updatedLead.id,
-      name: updatedLead.Full_Name || ${updatedLead.First_Name || ''} .trim(),
+      name: updatedLead.Full_Name || `${updatedLead.First_Name || ''} ${updatedLead.Last_Name || ''}`.trim(),
       email: updatedLead.Email || 'N/A',
       company: updatedLead.Company || 'N/A',
       phone: updatedLead.Phone || 'N/A',

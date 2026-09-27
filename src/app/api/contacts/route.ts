@@ -61,7 +61,7 @@ export async function PUT(request: Request) {
     const updatedRecord = await getZohoContactById(id);
     const formattedRecord = {
       id: updatedRecord.id,
-      name: updatedRecord.Full_Name || ${updatedRecord.First_Name || ''} .trim(),
+      name: updatedRecord.Full_Name || `${updatedRecord.First_Name || ''} ${updatedRecord.Last_Name || ''}`.trim(),
       email: updatedRecord.Email || 'N/A',
       phone: updatedRecord.Phone || 'N/A',
       owner: updatedRecord.Owner?.name || 'N/A'
