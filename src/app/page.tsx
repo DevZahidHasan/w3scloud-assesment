@@ -256,8 +256,16 @@ export default function DashboardLayout() {
       <main className="flex-1 flex flex-col overflow-hidden relative">
         
         {/* HEADER */}
-        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 shadow-sm">
-          <div className="text-xl font-semibold text-gray-800 capitalize">{activeTab} Module</div>
+        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-8 shadow-sm">
+            <div className="flex items-center">
+              <button 
+                className="md:hidden mr-3 text-gray-600 hover:text-gray-900 focus:outline-none" 
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+              </button>
+              <div className="text-xl font-semibold text-gray-800 capitalize">{activeTab} Module</div>
+            </div>
           <div className="flex items-center space-x-6">
             <a href="/api/auth/login" className="text-sm font-medium text-gray-500 hover:text-blue-600 transition">
               Refresh Connection
