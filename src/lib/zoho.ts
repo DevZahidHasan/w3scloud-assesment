@@ -209,3 +209,41 @@ export async function getZohoAccountById(recordId: string) {
   const data = await response.json();
   return data.data[0];
 }
+
+// GENERIC: Update a record in Zoho CRM
+export async function updateZohoRecord(moduleName: string, recordId: string, recordData: Record<string, unknown>) {
+  const accessToken = await getValidAccessToken();
+  if (!accessToken) throw new Error('UNAUTHORIZED');
+
+  const response = await fetch(`${ZOHO_API_DOMAIN}/${moduleName}/${recordId}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Zoho-oauthtoken ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ data: [recordData] }),
+  });
+
+  const result = await response.json();
+  if (!response.ok || (result.data && result.data[0].status === 'error')) {
+    throw new Error(result.data?.[0]?.message || `Failed to update ${moduleName}`);
+  }
+  return true;
+}
+
+// GENERIC: Delete a record from Zoho CRM
+export async function deleteZohoRecord(moduleName: string, recordId: string) {
+  const accessToken = await getValidAccessToken();
+  if (!accessToken) throw new Error('UNAUTHORIZED');
+
+  const response = await fetch(`${ZOHO_API_DOMAIN}/${moduleName}/${recordId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Zoho-oauthtoken ${accessToken}` },
+  });
+
+  const result = await response.json();
+  if (!response.ok || (result.data && result.data[0].status === 'error')) {
+    throw new Error(result.data?.[0]?.message || `Failed to delete ${moduleName}`);
+  }
+  return true;
+}

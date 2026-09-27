@@ -15,6 +15,7 @@ interface CrmRecord {
 
 export default function DashboardLayout() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'leads' | 'contacts' | 'accounts'>('dashboard');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Data States
   const [leads, setLeads] = useState<CrmRecord[]>([]);
@@ -214,21 +215,31 @@ export default function DashboardLayout() {
     <div className="flex h-screen bg-gray-50 font-sans">
       
       {/* SIDEBAR (Zoho CRM Style) */}
-      <aside className="w-64 bg-[#111928] text-white flex flex-col hidden md:flex">
+      
+        {/* MOBILE OVERLAY */}
+        {isMobileMenuOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          ></div>
+        )}
+
+        {/* SIDEBAR (Zoho CRM Style) */}
+        <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#111928] text-white flex flex-col transform transition-transform duration-300 md:relative md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="h-16 flex items-center px-6 border-b border-gray-700">
           <span className="text-xl font-bold tracking-wide">W3SCLOUD CRM</span>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-2">
-          <button onClick={() => setActiveTab('dashboard')} className={`w-full flex items-center px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'dashboard' ? 'bg-[#1F2A3C] text-blue-400' : 'text-gray-400 hover:bg-[#1F2A3C] hover:text-white'}`}>
+          <button onClick={() => { setActiveTab('dashboard'); setIsMobileMenuOpen(false); }} className={`w-full flex items-center px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'dashboard' ? 'bg-[#1F2A3C] text-blue-400' : 'text-gray-400 hover:bg-[#1F2A3C] hover:text-white'}`}>
             Dashboard
           </button>
-          <button onClick={() => setActiveTab('leads')} className={`w-full flex items-center px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'leads' ? 'bg-[#1F2A3C] text-blue-400' : 'text-gray-400 hover:bg-[#1F2A3C] hover:text-white'}`}>
+          <button onClick={() => { setActiveTab('leads'); setIsMobileMenuOpen(false); }} className={`w-full flex items-center px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'leads' ? 'bg-[#1F2A3C] text-blue-400' : 'text-gray-400 hover:bg-[#1F2A3C] hover:text-white'}`}>
             Leads
           </button>
-          <button onClick={() => setActiveTab('contacts')} className={`w-full flex items-center px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'contacts' ? 'bg-[#1F2A3C] text-blue-400' : 'text-gray-400 hover:bg-[#1F2A3C] hover:text-white'}`}>
+          <button onClick={() => { setActiveTab('contacts'); setIsMobileMenuOpen(false); }} className={`w-full flex items-center px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'contacts' ? 'bg-[#1F2A3C] text-blue-400' : 'text-gray-400 hover:bg-[#1F2A3C] hover:text-white'}`}>
             Contacts
           </button>
-          <button onClick={() => setActiveTab('accounts')} className={`w-full flex items-center px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'accounts' ? 'bg-[#1F2A3C] text-blue-400' : 'text-gray-400 hover:bg-[#1F2A3C] hover:text-white'}`}>
+          <button onClick={() => { setActiveTab('accounts'); setIsMobileMenuOpen(false); }} className={`w-full flex items-center px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'accounts' ? 'bg-[#1F2A3C] text-blue-400' : 'text-gray-400 hover:bg-[#1F2A3C] hover:text-white'}`}>
             Accounts
           </button>
         </nav>

@@ -48,3 +48,36 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }
+import { updateZohoRecord, deleteZohoRecord } from '@/lib/zoho';
+
+export async function PUT(request: Request) {
+  try {
+    const { id, ...body } = await request.json();
+    if (!id) return NextResponse.json({ success: false, error: 'Missing ID' }, { status: 400 });
+    await updateZohoRecord('Accounts', id, body);
+    
+    const updatedRecord = await getZohoAccountById(id);
+    const formattedRecord = {
+      id: updatedRecord.id,
+      name: updatedRecord.Account_Name || 'N/A',
+      website: updatedRecord.Website || 'N/A',
+      phone: updatedRecord.Phone || 'N/A',
+      owner: updatedRecord.Owner?.name || 'N/A'
+    };
+    return NextResponse.json({ success: true, data: formattedRecord });
+  } catch (error: unknown) {
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : String(error) }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    if (!id) return NextResponse.json({ success: false, error: 'Missing ID' }, { status: 400 });
+    await deleteZohoRecord('Accounts', id);
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : String(error) }, { status: 500 });
+  }
+}
